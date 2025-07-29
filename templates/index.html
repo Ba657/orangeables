@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orangeables</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            justify-content: flex-start;
+            background-color: orange;
+        }
+
+        .orangeable-text {
+            color: #FF8C00;
+            font-family: "Ruscot", cursive;
+            font-size: 10em;
+            text-align: center;
+            padding-top: 0px;
+            width: 100%;
+            box-sizing: border-box;
+            line-height: 1;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .subtitle-downloads {
+            color: black;
+            font-family: "Ruscot", cursive;
+            font-size: 3em;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 600px;
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .upload-section {
+            margin-bottom: 30px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 20px;
+        }
+
+        .download-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .download-section li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .download-section a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .download-section a:hover {
+            text-decoration: underline;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            margin-right: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="orangeable-text">orangeable</h1>
+    <h2 class="subtitle-downloads">downloads</h2>
+
+    <div class="container">
+        <div class="upload-section">
+            <h3>Upload Your File:</h3>
+            <form action="/upload" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                <input type="file" name="fileToUpload" id="fileToUpload">
+                <input type="submit" value="Upload File">
+            </form>
+        </div>
+
+        <div class="download-section">
+            <h3>Available Files:</h3>
+            <ul>
+                {% for file in files %}
+                <li>
+                    <span>{{ file }}</span>
+                    <a href="{{ url_for('view_file', filename=file) }}">View File</a>
+                </li>
+                {% else %}
+                <li>No files uploaded yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function validateForm() {
+            var fileInput = document.getElementById('fileToUpload');
+            if (fileInput.files.length === 0) {
+                alert('Please choose a file first!');
+                return false; // Prevent form submission
+            }
+            return true; // Allow form submission
+        }
+    </script>
+
+</body>
+</html>

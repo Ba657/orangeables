@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View {{ filename }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            justify-content: flex-start;
+            background-color: orange;
+        }
+
+        .orangeable-text {
+            color: #FF8C00;
+            font-family: "Ruscot", cursive;
+            font-size: 10em;
+            text-align: center;
+            padding-top: 0px;
+            width: 100%;
+            box-sizing: border-box;
+            line-height: 1;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .subtitle-downloads {
+            color: black;
+            font-family: "Ruscot", cursive;
+            font-size: 3em;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 600px;
+            margin-top: 40px;
+            text-align: center; /* Center content in this container */
+        }
+
+        .download-button {
+            background-color: #007BFF; /* Blue button */
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.5em;
+            text-decoration: none; /* For the link as a button */
+            display: inline-block; /* To allow padding/margins on the link */
+            margin-top: 30px;
+        }
+
+        .download-button:hover {
+            background-color: #0056b3;
+        }
+
+        .share-link-section {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            word-wrap: break-word; /* Helps long URLs wrap */
+        }
+
+        .share-link-input {
+            width: calc(100% - 20px); /* Adjust width for padding */
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            font-size: 0.9em;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            background-color: #6c757d; /* Gray button */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1 class="orangeable-text">orangeable</h1>
+    <h2 class="subtitle-downloads">downloads</h2>
+
+    <div class="container">
+        <h3>Viewing File: <br> {{ filename }}</h3>
+
+        <a href="{{ url_for('download_file', filename=filename) }}" class="download-button" download>
+            Download File
+        </a>
+
+        <div class="share-link-section">
+            <h4>Share This File's Page:</h4>
+            <p>Give this link to anyone to view and download this file:</p>
+            {# This JavaScript dynamically gets the current page's URL #}
+            <input type="text" class="share-link-input" id="shareLink" value="" readonly>
+            <button onclick="copyShareLink()">Copy Link</button>
+        </div>
+
+        <a href="{{ url_for('index') }}" class="back-button">Back to All Files</a>
+    </div>
+
+    <script>
+        // JavaScript to get the current URL and put it in the input field
+        document.addEventListener('DOMContentLoaded', function() {
+            var shareLinkInput = document.getElementById('shareLink');
+            shareLinkInput.value = window.location.href;
+        });
+
+        function copyShareLink() {
+            var shareLinkInput = document.getElementById('shareLink');
+            shareLinkInput.select();
+            shareLinkInput.setSelectionRange(0, 99999); // For mobile devices
+            document.execCommand("copy");
+            alert("Link copied to clipboard!");
+        }
+    </script>
+
+</body>
+</html>
